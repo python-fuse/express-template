@@ -1,0 +1,32 @@
+{
+  "name": "code-off-server",
+  "version": "0.0.1",
+  "description": "A multiplayer code competition app.",
+  "main": "src/server.ts",
+  "repository": "https://github.com/python-fuse/code-off-server",
+  "author": "Umar Muhammad Muktar",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "start": "node dist/server.js",
+    "dev": "nodemon --watch src --exec ts-node src/server.ts",
+    "build": "tsc",
+    "postinstall": "prisma generate && tsc"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.13.5",
+    "prisma": "^6.4.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-validator": "^7.2.1",
+    "nodemon": "^3.1.9",
+    "passport": "^0.7.0"
+  }
+}
