@@ -1,468 +1,180 @@
-# 🚀 Duty Roster Management System
+# Express.js Starter Template
 
-A comprehensive duty roster management system built with Node.js, Express, TypeScript, Prisma, and Socket.IO for real-time notifications.
+A comprehensive Express.js starter template with TypeScript, Prisma ORM, Socket.IO, and essential middleware for building scalable web applications.
 
-## ✨ Features
+## 🚀 Features
 
-- **🔐 Authentication & Authorization** - Session-based authentication with role-based access control
-- **👥 User Management** - Admin, Supervisor, and Staff role management
-- **📅 Duty Roster Management** - Create and manage duty rosters for different shifts
-- **📋 Assignment Management** - Assign staff to duty rosters with automatic notifications
-- **🔔 Real-time Notifications** - WebSocket-based real-time notifications for assignments and announcements
-- **🎯 Role-based Access Control** - Different permissions for Admin, Supervisor, and Staff
-- **📊 Database Management** - Prisma ORM with SQLite database
-- **🐳 Docker Support** - Containerized deployment
+- **TypeScript**: Full TypeScript support with proper type definitions
+- **Express.js**: Fast, unopinionated web framework for Node.js
+- **Prisma ORM**: Type-safe database client with SQLite (easily configurable for other databases)
+- **Socket.IO**: Real-time bidirectional event-based communication
+- **Session Management**: Express sessions with Prisma store
+- **Security**: Helmet.js for security headers, CORS, and bcrypt for password hashing
+- **File Upload**: Multer for handling multipart/form-data
+- **Validation**: Express-validator for request validation
+- **Authentication**: JWT and session-based authentication middleware
+- **Development Tools**: Nodemon for hot reloading, TypeScript compilation
 
-## 🛠️ Tech Stack
+## 📦 Included Packages
 
-- **Backend**: Node.js, Express.js, TypeScript
-- **Database**: SQLite with Prisma ORM
-- **Authentication**: Express Sessions with Prisma Session Store
-- **Real-time**: Socket.IO
-- **Security**: Helmet, CORS, bcrypt
-- **Validation**: Express Validator
-- **Development**: Nodemon, ts-node
+### Production Dependencies
 
-## 📋 Prerequisites
+- **@prisma/client** (^6.11.1) - Type-safe database client
+- **@quixo3/prisma-session-store** (^3.1.13) - Prisma-based session store
+- **@types/multer** (^2.0.0) - TypeScript definitions for Multer
+- **bcrypt** (^6.0.0) - Password hashing library
+- **canvas** (^3.2.0) - HTML5 Canvas API for Node.js
+- **cors** (^2.8.5) - CORS middleware
+- **dotenv** (^17.0.1) - Environment variable loader
+- **express** (^5.1.0) - Web framework
+- **express-session** (^1.18.1) - Session middleware
+- **express-validator** (^7.2.1) - Validation middleware
+- **helmet** (^8.1.0) - Security middleware
+- **jsonwebtoken** (^9.0.2) - JWT implementation
+- **multer** (^2.0.2) - Multipart form data handler
+- **socket.io** (^4.8.1) - Real-time communication
 
-- Node.js (v18 or higher)
-- pnpm (recommended) or npm
-- Docker (optional)
+### Development Dependencies
 
-## 🚀 Quick Start
+- **@types/bcrypt** (^5.0.2) - TypeScript definitions for bcrypt
+- **@types/cors** (^2.8.19) - TypeScript definitions for CORS
+- **@types/express** (^5.0.3) - TypeScript definitions for Express
+- **@types/express-session** (^1.18.2) - TypeScript definitions for express-session
+- **@types/jsonwebtoken** (^9.0.10) - TypeScript definitions for JWT
+- **@types/node** (^24.0.10) - TypeScript definitions for Node.js
+- **nodemon** (^3.1.10) - Development server with hot reload
+- **prisma** (^6.11.1) - Prisma CLI and migration tools
+- **ts-node** (^10.9.2) - TypeScript execution for Node.js
+- **typescript** (^5.8.3) - TypeScript compiler
 
-### 1. Clone and Install
-
-```bash
-git clone <repository-url>
-cd roster/server
-pnpm install
-```
-
-### 2. Environment Setup
-
-Create a `.env` file in the server directory:
-
-```env
-DATABASE_URL="file:./dev.db"
-SESSION_SECRET="your-super-secure-session-secret-change-this-in-production"
-PORT=5000
-NODE_ENV=development
-```
-
-### 3. Database Setup
-
-```bash
-# Generate Prisma client
-pnpm prisma:generate
-
-# Run database migrations
-pnpm prisma:migrate
-
-# Seed the database with test data
-pnpm seed
-```
-
-### 4. Start Development Server
-
-```bash
-pnpm dev
-```
-
-The server will start on `http://localhost:5000`
-
-## 🔑 Test Credentials
-
-After seeding, you can use these test accounts:
-
-| Role       | Email                 | Password    |
-| ---------- | --------------------- | ----------- |
-| Admin      | admin@roster.com      | password123 |
-| Supervisor | supervisor@roster.com | password123 |
-| Staff      | alice@roster.com      | password123 |
-| Staff      | bob@roster.com        | password123 |
-| Staff      | carol@roster.com      | password123 |
-
-## 📚 API Documentation
-
-### Base URL
+## 🏗️ Project Structure
 
 ```
-http://localhost:5000/api
+├── prisma/
+│   ├── schema.prisma          # Database schema
+│   ├── seed.ts               # Database seeding script
+│   └── migrations/           # Database migrations
+├── src/
+│   ├── @types/              # Custom TypeScript definitions
+│   ├── controllers/         # Route controllers
+│   ├── emitters/           # Event emitters
+│   ├── handlers/           # Socket.IO and other handlers
+│   ├── middleware/         # Custom middleware
+│   │   ├── authenticate.ts  # Authentication middleware
+│   │   ├── errorHandler.ts  # Global error handler
+│   │   ├── requestLogger.ts # Request logging
+│   │   ├── uploadHandler.ts # File upload handler
+│   │   └── validator.ts     # Request validation
+│   ├── routes/             # API routes
+│   ├── services/           # Business logic services
+│   ├── utils/              # Utility functions
+│   │   └── prisma.ts       # Prisma client instance
+│   ├── validators/         # Validation schemas
+│   ├── index.ts           # Application entry point
+│   └── responses.ts       # Response utilities
+├── package.json
+├── tsconfig.json          # TypeScript configuration
+└── README.md
 ```
 
-### 🔐 Authentication
-
-#### POST `/auth/login`
-
-Login user and create session
-
-**Request:**
-
-```json
-{
-  "email": "admin@roster.com",
-  "password": "password123"
-}
-```
-
-**Response:**
-
-```json
-{
-  "user": {
-    "id": "uuid",
-    "name": "Admin User",
-    "email": "admin@roster.com",
-    "role": "ADMIN"
-  },
-  "message": "Login successful"
-}
-```
-
-#### POST `/auth/logout`
-
-Logout user and destroy session
-
-#### GET `/auth/me`
-
-Get current user information
-
-### 👥 Users
-
-#### GET `/users`
-
-Get all users (Admin/Supervisor only)
-
-#### GET `/users/:id`
-
-Get user by ID
-
-#### POST `/users`
-
-Create new user (Admin only)
-
-**Request:**
-
-```json
-{
-  "name": "New User",
-  "email": "newuser@roster.com",
-  "password": "password123",
-  "role": "STAFF"
-}
-```
-
-#### PUT `/users/:id`
-
-Update user
-
-#### DELETE `/users/:id`
-
-Delete user (Admin only)
-
-### 📅 Duty Rosters
-
-#### GET `/dutyrosters`
-
-Get all duty rosters
-
-**Query Parameters:**
-
-- `date` - Filter by date (YYYY-MM-DD)
-- `shift` - Filter by shift (MORNING, EVENING, NIGHT)
-
-#### GET `/dutyrosters/:id`
-
-Get duty roster by ID
-
-#### POST `/dutyrosters`
-
-Create new duty roster (Supervisor/Admin only)
-
-**Request:**
-
-```json
-{
-  "date": "2025-09-20",
-  "shift": "MORNING"
-}
-```
-
-#### PUT `/dutyrosters/:id`
-
-Update duty roster
-
-#### DELETE `/dutyrosters/:id`
-
-Delete duty roster
-
-### 📋 Assignments
-
-#### GET `/assignments`
-
-Get all assignments
-
-**Query Parameters:**
-
-- `userId` - Filter by user ID
-- `dutyRosterId` - Filter by duty roster ID
-
-#### GET `/assignments/:id`
-
-Get assignment by ID
-
-#### POST `/assignments`
-
-Create new assignment
-
-**Request:**
-
-```json
-{
-  "dutyRosterId": "uuid",
-  "userId": "uuid"
-}
-```
-
-#### DELETE `/assignments/:id`
-
-Delete assignment
-
-### 🔔 Notifications
-
-#### GET `/notifications`
-
-Get all notifications (Admin only)
-
-#### GET `/notifications/user/:userId`
-
-Get notifications for specific user
-
-#### POST `/notifications`
-
-Create new notification
-
-**Request:**
-
-```json
-{
-  "userId": "uuid",
-  "title": "Test Notification",
-  "message": "This is a test message",
-  "type": "SYSTEM_ANNOUNCEMENT",
-  "metadata": "{\"key\": \"value\"}"
-}
-```
-
-#### PATCH `/notifications/:id/read`
-
-Mark notification as read
-
-#### DELETE `/notifications/:id`
-
-Delete notification
-
-## 🔌 WebSocket Events
-
-### Connection
-
-```javascript
-const socket = io("http://localhost:5000");
-
-// Join user room for notifications
-socket.emit("join", userId);
-
-// Listen for real-time notifications
-socket.on("notification", (notification) => {
-  console.log("New notification:", notification);
-});
-```
-
-### Events
-
-- `join` - Join user-specific room
-- `notification` - Receive real-time notifications
-- `joined` - Confirmation of room join
-- `error` - Connection/room errors
-
-## 📊 Data Models
-
-### User Roles
-
-- `ADMIN` - Full system access
-- `SUPERVISOR` - Manage rosters and assignments
-- `STAFF` - View own assignments
-
-### Shifts
-
-- `MORNING` - Morning shift
-- `EVENING` - Evening shift
-- `NIGHT` - Night shift
-
-### Notification Types
-
-- `ASSIGNMENT_CREATED`
-- `ASSIGNMENT_UPDATED`
-- `ASSIGNMENT_DELETED`
-- `DUTY_ROSTER_CREATED`
-- `DUTY_ROSTER_UPDATED`
-- `SYSTEM_ANNOUNCEMENT`
-- `REMINDER`
-
-## 📂 Project Structure
-
-```
-src/
-├── index.ts                    # Main application entry point
-├── responses.ts               # Standardized API responses
-├── @types/                    # TypeScript type definitions
-│   ├── express/
-│   └── express-session/
-├── controllers/               # Request handlers
-│   ├── auth.controller.ts
-│   ├── user.controller.ts
-│   ├── dutyroster.controller.ts
-│   ├── assignment.controller.ts
-│   └── notification.controller.ts
-├── services/                  # Business logic
-│   ├── auth.service.ts
-│   ├── user.service.ts
-│   ├── dutyroster.service.ts
-│   ├── assignment.service.ts
-│   ├── notification.service.ts
-│   └── jwt.service.ts
-├── middleware/                # Express middleware
-│   ├── authenticate.ts
-│   ├── errorHandler.ts
-│   ├── requestLogger.ts
-│   ├── uploadHandler.ts
-│   └── validator.ts
-├── routes/                    # API routes
-│   ├── auth.route.ts
-│   ├── user.route.ts
-│   ├── dutyroster.route.ts
-│   ├── assignment.route.ts
-│   ├── notification.route.ts
-│   └── upload.route.ts
-├── handlers/                  # Socket.IO handlers
-│   └── socket.handler.ts
-├── emitters/                  # Event emitters
-│   └── notification.emitter.ts
-├── utils/                     # Utility functions
-│   └── prisma.ts
-└── validators/                # Request validation schemas
-    └── index.ts
-
-prisma/
-├── schema.prisma             # Database schema
-├── migrations/               # Database migrations
-└── seed.ts                   # Database seeding
-
-```
-
-## 🚀 Available Scripts
-
-```bash
-# Development
-pnpm dev          # Start development server with hot reload
-pnpm build        # Build for production
-pnpm start        # Start production server
-
-# Database
-pnpm prisma:generate  # Generate Prisma client
-pnpm prisma:migrate   # Run database migrations
-pnpm prisma:studio    # Open Prisma Studio GUI
-pnpm seed            # Seed database with test data
-
-# Testing
-pnpm test        # Run tests (not implemented yet)
-```
-
-## 🐳 Docker Deployment
-
-### Development
-
-```bash
-docker build -t roster-server:dev .
-docker run -p 5000:5000 --env-file .env roster-server:dev
-```
-
-### Production
-
-```bash
-docker build -t roster-server:prod .
-docker run -d \
-  --name roster-server \
-  -p 5000:5000 \
-  --env-file .env.production \
-  roster-server:prod
-```
+## 🛠️ Setup and Installation
+
+1. **Clone the repository**
+
+   ```bash
+   git clone <repository-url>
+   cd server
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   pnpm install
+   # or
+   npm install
+   ```
+
+3. **Setup environment variables**
+   Create a `.env` file in the root directory:
+
+   ```env
+   PORT=5000
+   JWT_SECRET=your-jwt-secret
+   SESSION_SECRET=your-session-secret
+   DATABASE_URL="file:./dev.db"
+   ```
+
+4. **Setup database**
+
+   ```bash
+   # Generate Prisma client
+   pnpm prisma:generate
+
+   # Run migrations
+   pnpm prisma:migrate
+
+   # Seed database (optional)
+   pnpm seed
+   ```
+
+## 🚦 Available Scripts
+
+- `pnpm dev` - Start development server with hot reload
+- `pnpm build` - Build TypeScript to JavaScript
+- `pnpm start` - Start production server
+- `pnpm prisma:generate` - Generate Prisma client
+- `pnpm prisma:migrate` - Run database migrations
+- `pnpm prisma:studio` - Open Prisma Studio
+- `pnpm seed` - Run database seeding script
 
 ## 🔧 Configuration
 
-### Environment Variables
+### Database
 
-| Variable         | Description               | Default           |
-| ---------------- | ------------------------- | ----------------- |
-| `DATABASE_URL`   | SQLite database file path | `"file:./dev.db"` |
-| `SESSION_SECRET` | Session encryption secret | `required`        |
-| `PORT`           | Server port               | `5000`            |
-| `NODE_ENV`       | Environment mode          | `development`     |
+By default, the template uses SQLite. To use a different database:
 
-### CORS Configuration
+1. Update the `datasource` in `prisma/schema.prisma`
+2. Update the `DATABASE_URL` in your `.env` file
+3. Run `pnpm prisma:migrate` to apply changes
 
-Currently configured for frontend development:
+### TypeScript
 
-```typescript
-cors({
-  origin: ["http://localhost:5173"],
-  credentials: true,
-});
-```
+TypeScript configuration is in `tsconfig.json`. The setup includes:
 
-## 🛡️ Security Features
+- Custom type definitions in `src/@types`
+- Source maps for debugging
+- Strict type checking
 
-- **Helmet** - Security headers
-- **CORS** - Cross-origin resource sharing protection
-- **bcrypt** - Password hashing
-- **Session-based authentication** - Secure session management
-- **Role-based authorization** - Endpoint protection based on user roles
-- **Input validation** - Express Validator for request validation
+## 🔐 Security Features
 
-## 🚧 Development
+- **Helmet.js**: Sets various HTTP headers for security
+- **CORS**: Configurable cross-origin resource sharing
+- **Session Security**: Secure session configuration with Prisma store
+- **Password Hashing**: bcrypt for secure password storage
+- **JWT Authentication**: Token-based authentication middleware
 
-### Adding New Features
+## 📡 Real-time Features
 
-1. **Database Changes**: Update `prisma/schema.prisma` and run migrations
-2. **API Endpoints**: Add routes, controllers, and services
-3. **Real-time Features**: Update socket handlers and emitters
-4. **Validation**: Add validators for new endpoints
+Socket.IO is configured for real-time communication with:
 
-### Testing
+- Organized handlers in `src/handlers/`
+- Event emitters in `src/emitters/`
+- Session integration for authenticated socket connections
 
-Currently using manual testing. Recommended testing tools:
+## 🎯 Usage
 
-- **Unit Tests**: Jest + Supertest
-- **API Testing**: Postman collections
-- **Socket Testing**: Socket.IO client tools
+This template provides a solid foundation for building:
+
+- REST APIs
+- Real-time applications
+- Authentication systems
+- File upload services
+- Database-driven applications
 
 ## 📝 License
 
-This project is licensed under the ISC License.
+ISC License
 
 ## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
-
-## 📞 Support
-
-For support or questions, please create an issue in the repository.
-
----
-
-**Built with ❤️ for efficient duty roster management**
+Feel free to submit issues and enhancement requests!
