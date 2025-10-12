@@ -11,15 +11,9 @@ import http from "http";
 import { errorHandler } from "./middleware/errorHandler";
 import { requestLogger } from "./middleware/requestLogger";
 import { authenticate } from "./middleware/authenticate";
-import authRouter from "./routes/auth.route";
-import userRouter from "./routes/user.route";
-import dutyRosterRouter from "./routes/dutyroster.route";
-import assignmentRouter from "./routes/assignment.route";
-import notificationRouter from "./routes/notification.route";
 
 // Import Prisma client
 import prisma from "./utils/prisma";
-import { setupSocketHandlers } from "./handlers/socket.handler";
 
 // Load environment variables
 dotenv.config();
@@ -72,12 +66,6 @@ app.get("/health", (req, res) => {
   res.status(200).json({ status: "ok", message: "Server is running" });
 });
 
-app.use("/api/users", authenticate, userRouter);
-app.use("/api/auth", authRouter);
-app.use("/api/dutyrosters", authenticate, dutyRosterRouter);
-app.use("/api/assignments", authenticate, assignmentRouter);
-app.use("/api/notifications", authenticate, notificationRouter);
-
 // Error handling middleware
 app.use(errorHandler);
 
@@ -92,8 +80,6 @@ export const io = new Server(server, {
     credentials: true,
   },
 });
-
-setupSocketHandlers(io);
 
 // Start server
 server.listen(PORT, () => {
